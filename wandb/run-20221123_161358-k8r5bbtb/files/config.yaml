@@ -1,0 +1,642 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.13.5
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.8.13
+    start_time: 1669216438.502349
+    t:
+      1:
+      - 1
+      - 5
+      - 37
+      - 38
+      - 41
+      - 53
+      - 55
+      - 60
+      2:
+      - 1
+      - 5
+      - 37
+      - 38
+      - 41
+      - 53
+      - 55
+      - 60
+      3:
+      - 3
+      - 23
+      4: 3.8.13
+      5: 0.13.5
+      8:
+      - 3
+      - 5
+checkpoint_config:
+  desc: null
+  value:
+    interval: 1
+class_names:
+  desc: null
+  value:
+  - Car
+data:
+  desc: null
+  value:
+    samples_per_gpu: 6
+    test:
+      ann_file: data/kitti/kitti_infos_val.pkl
+      box_type_3d: LiDAR
+      classes:
+      - Car
+      data_root: data/kitti/
+      file_client_args:
+        backend: disk
+      modality:
+        use_camera: false
+        use_lidar: true
+      pipeline:
+      - coord_type: LIDAR
+        load_dim: 4
+        type: LoadPointsFromFile
+        use_dim: 4
+      - flip: false
+        img_scale:
+        - 1333
+        - 800
+        pts_scale_ratio: 1
+        transforms:
+        - rot_range:
+          - 0
+          - 0
+          scale_ratio_range:
+          - 1.0
+          - 1.0
+          translation_std:
+          - 0
+          - 0
+          - 0
+          type: GlobalRotScaleTrans
+        - type: RandomFlip3D
+        - point_cloud_range:
+          - 0
+          - -39.68
+          - -3
+          - 69.12
+          - 39.68
+          - 1
+          type: PointsRangeFilter
+        - class_names:
+          - Car
+          type: DefaultFormatBundle3D
+          with_label: false
+        - keys:
+          - points
+          type: Collect3D
+        type: MultiScaleFlipAug3D
+      pts_prefix: velodyne_reduced
+      split: training
+      test_mode: true
+      type: KittiDataset
+    train:
+      dataset:
+        ann_file: data/kitti/kitti_infos_train.pkl
+        box_type_3d: LiDAR
+        classes:
+        - Car
+        data_root: data/kitti/
+        file_client_args:
+          backend: disk
+        modality:
+          use_camera: false
+          use_lidar: true
+        pipeline:
+        - coord_type: LIDAR
+          load_dim: 4
+          type: LoadPointsFromFile
+          use_dim: 4
+        - type: LoadAnnotations3D
+          with_bbox_3d: true
+          with_label_3d: true
+        - db_sampler:
+            classes:
+            - Car
+            data_root: data/kitti/
+            info_path: data/kitti/kitti_dbinfos_train.pkl
+            prepare:
+              filter_by_difficulty:
+              - -1
+              filter_by_min_points:
+                Car: 5
+            rate: 1.0
+            sample_groups:
+              Car: 15
+          type: ObjectSample
+          use_ground_plane: true
+        - flip_ratio_bev_horizontal: 0.5
+          type: RandomFlip3D
+        - rot_range:
+          - -0.78539816
+          - 0.78539816
+          scale_ratio_range:
+          - 0.95
+          - 1.05
+          type: GlobalRotScaleTrans
+        - point_cloud_range:
+          - 0
+          - -39.68
+          - -3
+          - 69.12
+          - 39.68
+          - 1
+          type: PointsRangeFilter
+        - point_cloud_range:
+          - 0
+          - -39.68
+          - -3
+          - 69.12
+          - 39.68
+          - 1
+          type: ObjectRangeFilter
+        - type: PointShuffle
+        - class_names:
+          - Car
+          type: DefaultFormatBundle3D
+        - keys:
+          - points
+          - gt_bboxes_3d
+          - gt_labels_3d
+          type: Collect3D
+        pts_prefix: velodyne_reduced
+        split: training
+        test_mode: false
+        type: KittiDataset
+      times: 2
+      type: RepeatDataset
+    val:
+      ann_file: data/kitti/kitti_infos_val.pkl
+      box_type_3d: LiDAR
+      classes:
+      - Car
+      data_root: data/kitti/
+      file_client_args:
+        backend: disk
+      modality:
+        use_camera: false
+        use_lidar: true
+      pipeline:
+      - coord_type: LIDAR
+        load_dim: 4
+        type: LoadPointsFromFile
+        use_dim: 4
+      - flip: false
+        img_scale:
+        - 1333
+        - 800
+        pts_scale_ratio: 1
+        transforms:
+        - rot_range:
+          - 0
+          - 0
+          scale_ratio_range:
+          - 1.0
+          - 1.0
+          translation_std:
+          - 0
+          - 0
+          - 0
+          type: GlobalRotScaleTrans
+        - type: RandomFlip3D
+        - point_cloud_range:
+          - 0
+          - -39.68
+          - -3
+          - 69.12
+          - 39.68
+          - 1
+          type: PointsRangeFilter
+        - class_names:
+          - Car
+          type: DefaultFormatBundle3D
+          with_label: false
+        - keys:
+          - points
+          type: Collect3D
+        type: MultiScaleFlipAug3D
+      pts_prefix: velodyne_reduced
+      split: training
+      test_mode: true
+      type: KittiDataset
+    workers_per_gpu: 4
+data_root:
+  desc: null
+  value: data/kitti/
+dataset_type:
+  desc: null
+  value: KittiDataset
+db_sampler:
+  desc: null
+  value:
+    classes:
+    - Car
+    data_root: data/kitti/
+    file_client_args:
+      backend: disk
+    info_path: data/kitti/kitti_dbinfos_train.pkl
+    points_loader:
+      coord_type: LIDAR
+      file_client_args:
+        backend: disk
+      load_dim: 4
+      type: LoadPointsFromFile
+      use_dim: 4
+    prepare:
+      filter_by_difficulty:
+      - -1
+      filter_by_min_points:
+        Car: 5
+        Cyclist: 5
+        Pedestrian: 5
+    rate: 1.0
+    sample_groups:
+      Car: 15
+      Cyclist: 15
+      Pedestrian: 15
+dist_params:
+  desc: null
+  value:
+    backend: nccl
+eval_pipeline:
+  desc: null
+  value:
+  - coord_type: LIDAR
+    file_client_args:
+      backend: disk
+    load_dim: 4
+    type: LoadPointsFromFile
+    use_dim: 4
+  - class_names:
+    - Pedestrian
+    - Cyclist
+    - Car
+    type: DefaultFormatBundle3D
+    with_label: false
+  - keys:
+    - points
+    type: Collect3D
+evaluation:
+  desc: null
+  value:
+    interval: 2
+    pipeline:
+    - coord_type: LIDAR
+      file_client_args:
+        backend: disk
+      load_dim: 4
+      type: LoadPointsFromFile
+      use_dim: 4
+    - class_names:
+      - Pedestrian
+      - Cyclist
+      - Car
+      type: DefaultFormatBundle3D
+      with_label: false
+    - keys:
+      - points
+      type: Collect3D
+file_client_args:
+  desc: null
+  value:
+    backend: disk
+gpu_ids:
+  desc: null
+  value:
+  - 0
+input_modality:
+  desc: null
+  value:
+    use_camera: false
+    use_lidar: true
+load_from:
+  desc: null
+  value: null
+log_config:
+  desc: null
+  value:
+    hooks:
+    - type: TextLoggerHook
+    - type: TensorboardLoggerHook
+    interval: 50
+log_level:
+  desc: null
+  value: INFO
+lr:
+  desc: null
+  value: 0.001
+lr_config:
+  desc: null
+  value:
+    cyclic_times: 1
+    policy: cyclic
+    step_ratio_up: 0.4
+    target_ratio:
+    - 10
+    - 0.0001
+model:
+  desc: null
+  value:
+    backbone:
+      in_channels: 64
+      layer_nums:
+      - 3
+      - 5
+      - 5
+      layer_strides:
+      - 2
+      - 2
+      - 2
+      out_channels:
+      - 64
+      - 128
+      - 256
+      type: SECOND
+    bbox_head:
+      anchor_generator:
+        ranges:
+        - - 0
+          - -39.68
+          - -1.78
+          - 69.12
+          - 39.68
+          - -1.78
+        reshape_out: true
+        rotations:
+        - 0
+        - 1.57
+        sizes:
+        - - 3.9
+          - 1.6
+          - 1.56
+        type: AlignedAnchor3DRangeGenerator
+      assign_per_class: true
+      bbox_coder:
+        type: DeltaXYZWLHRBBoxCoder
+      diff_rad_by_sin: true
+      feat_channels: 384
+      in_channels: 384
+      loss_bbox:
+        beta: 0.1111111111111111
+        loss_weight: 2.0
+        type: SmoothL1Loss
+      loss_cls:
+        alpha: 0.25
+        gamma: 2.0
+        loss_weight: 1.0
+        type: FocalLoss
+        use_sigmoid: true
+      loss_dir:
+        loss_weight: 0.2
+        type: CrossEntropyLoss
+        use_sigmoid: false
+      num_classes: 1
+      type: Anchor3DHead
+      use_direction_classifier: true
+    middle_encoder:
+      in_channels: 64
+      output_shape:
+      - 496
+      - 432
+      type: PointPillarsScatter
+    neck:
+      in_channels:
+      - 64
+      - 128
+      - 256
+      out_channels:
+      - 128
+      - 128
+      - 128
+      type: SECONDFPN
+      upsample_strides:
+      - 1
+      - 2
+      - 4
+    test_cfg:
+      max_num: 50
+      min_bbox_size: 0
+      nms_across_levels: false
+      nms_pre: 100
+      nms_thr: 0.01
+      score_thr: 0.1
+      use_rotate_nms: true
+    train_cfg:
+      allowed_border: 0
+      assigner:
+        ignore_iof_thr: -1
+        iou_calculator:
+          type: BboxOverlapsNearest3D
+        min_pos_iou: 0.45
+        neg_iou_thr: 0.45
+        pos_iou_thr: 0.6
+        type: MaxIoUAssigner
+      debug: false
+      pos_weight: -1
+    type: VoxelNet
+    voxel_encoder:
+      feat_channels:
+      - 64
+      in_channels: 4
+      point_cloud_range:
+      - 0
+      - -39.68
+      - -3
+      - 69.12
+      - 39.68
+      - 1
+      type: PillarFeatureNet
+      voxel_size:
+      - 0.16
+      - 0.16
+      - 4
+      with_distance: false
+    voxel_layer:
+      max_num_points: 32
+      max_voxels:
+      - 16000
+      - 40000
+      point_cloud_range:
+      - 0
+      - -39.68
+      - -3
+      - 69.12
+      - 39.68
+      - 1
+      voxel_size:
+      - 0.16
+      - 0.16
+      - 4
+momentum_config:
+  desc: null
+  value:
+    cyclic_times: 1
+    policy: cyclic
+    step_ratio_up: 0.4
+    target_ratio:
+    - 0.8947368421052632
+    - 1
+mp_start_method:
+  desc: null
+  value: fork
+opencv_num_threads:
+  desc: null
+  value: 0
+optimizer:
+  desc: null
+  value:
+    betas:
+    - 0.95
+    - 0.99
+    lr: 0.001
+    type: AdamW
+    weight_decay: 0.01
+optimizer_config:
+  desc: null
+  value:
+    grad_clip:
+      max_norm: 35
+      norm_type: 2
+point_cloud_range:
+  desc: null
+  value:
+  - 0
+  - -39.68
+  - -3
+  - 69.12
+  - 39.68
+  - 1
+resume_from:
+  desc: null
+  value: null
+runner:
+  desc: null
+  value:
+    max_epochs: 80
+    type: EpochBasedRunner
+test_pipeline:
+  desc: null
+  value:
+  - coord_type: LIDAR
+    load_dim: 4
+    type: LoadPointsFromFile
+    use_dim: 4
+  - flip: false
+    img_scale:
+    - 1333
+    - 800
+    pts_scale_ratio: 1
+    transforms:
+    - rot_range:
+      - 0
+      - 0
+      scale_ratio_range:
+      - 1.0
+      - 1.0
+      translation_std:
+      - 0
+      - 0
+      - 0
+      type: GlobalRotScaleTrans
+    - type: RandomFlip3D
+    - point_cloud_range:
+      - 0
+      - -39.68
+      - -3
+      - 69.12
+      - 39.68
+      - 1
+      type: PointsRangeFilter
+    - class_names:
+      - Car
+      type: DefaultFormatBundle3D
+      with_label: false
+    - keys:
+      - points
+      type: Collect3D
+    type: MultiScaleFlipAug3D
+train_pipeline:
+  desc: null
+  value:
+  - coord_type: LIDAR
+    load_dim: 4
+    type: LoadPointsFromFile
+    use_dim: 4
+  - type: LoadAnnotations3D
+    with_bbox_3d: true
+    with_label_3d: true
+  - db_sampler:
+      classes:
+      - Car
+      data_root: data/kitti/
+      info_path: data/kitti/kitti_dbinfos_train.pkl
+      prepare:
+        filter_by_difficulty:
+        - -1
+        filter_by_min_points:
+          Car: 5
+      rate: 1.0
+      sample_groups:
+        Car: 15
+    type: ObjectSample
+    use_ground_plane: true
+  - flip_ratio_bev_horizontal: 0.5
+    type: RandomFlip3D
+  - rot_range:
+    - -0.78539816
+    - 0.78539816
+    scale_ratio_range:
+    - 0.95
+    - 1.05
+    type: GlobalRotScaleTrans
+  - point_cloud_range:
+    - 0
+    - -39.68
+    - -3
+    - 69.12
+    - 39.68
+    - 1
+    type: PointsRangeFilter
+  - point_cloud_range:
+    - 0
+    - -39.68
+    - -3
+    - 69.12
+    - 39.68
+    - 1
+    type: ObjectRangeFilter
+  - type: PointShuffle
+  - class_names:
+    - Car
+    type: DefaultFormatBundle3D
+  - keys:
+    - points
+    - gt_bboxes_3d
+    - gt_labels_3d
+    type: Collect3D
+voxel_size:
+  desc: null
+  value:
+  - 0.16
+  - 0.16
+  - 4
+work_dir:
+  desc: null
+  value: ./work_dirs\hv_pointpillars_secfpn_6x8_160e_kitti-3d-car
+workflow:
+  desc: null
+  value:
+  - - train
+    - 1

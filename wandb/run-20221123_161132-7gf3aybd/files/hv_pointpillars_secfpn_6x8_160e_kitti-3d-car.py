@@ -1,0 +1,1 @@
+E:/repos/TUDelft/mmlab-test/mmdetection3d-1.0.0rc5/work_dirs/hv_pointpillars_secfpn_6x8_160e_kitti-3d-car/hv_pointpillars_secfpn_6x8_160e_kitti-3d-car.py

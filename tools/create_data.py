@@ -9,12 +9,46 @@ from tools.data_converter import nuscenes_converter as nuscenes_converter
 from tools.data_converter.create_gt_database import (
     GTDatabaseCreater, create_groundtruth_database)
 
-# TODO: add support for view-of-delft
+
 def view_of_delft_data_prep(root_path,
                     info_prefix,
                     version,
                     out_dir,):
-    
+    """Prepare data related to view of delft dataset.
+
+    Related data consists of '.pkl' files recording basic infos,
+    2D annotations and groundtruth database.
+
+    Args:
+        root_path (str): Path of dataset root.
+        info_prefix (str): The prefix of info filenames.
+        version (str): Dataset version.
+        out_dir (str): Output directory of the groundtruth database info.
+        with_plane (bool, optional): Whether to use plane information.
+            Default: False.
+    """
+    kitti.create_view_of_delft_info_file(root_path, info_prefix)
+    kitti.create_reduced_point_cloud(root_path, info_prefix)
+
+    info_train_path = osp.join(root_path, f'{info_prefix}_infos_train.pkl')
+    info_val_path = osp.join(root_path, f'{info_prefix}_infos_val.pkl')
+    info_trainval_path = osp.join(root_path,
+                                  f'{info_prefix}_infos_trainval.pkl')
+    info_test_path = osp.join(root_path, f'{info_prefix}_infos_test.pkl')
+    kitti.export_2d_annotation(root_path, info_train_path)
+    kitti.export_2d_annotation(root_path, info_val_path)
+    kitti.export_2d_annotation(root_path, info_trainval_path)
+    kitti.export_2d_annotation(root_path, info_test_path)
+
+    create_groundtruth_database(
+        'ViewOfDelftDataset',
+        root_path,
+        info_prefix,
+        f'{out_dir}/{info_prefix}_infos_train.pkl',
+        relative_path=False,
+        mask_anno_path='instances_train.json',
+        with_mask=(version == 'mask'))
+
 
 def kitti_data_prep(root_path,
                     info_prefix,
@@ -251,6 +285,12 @@ if __name__ == '__main__':
             version=args.version,
             out_dir=args.out_dir,
             with_plane=args.with_plane)
+    elif args.dataset == 'ViewOfDelft':
+        view_of_delft_data_prep(
+            root_path=args.root_path,
+            info_prefix=args.extra_tag,
+            version=args.version,
+            out_dir=args.out_dir)
     elif args.dataset == 'nuscenes' and args.version != 'v1.0-mini':
         train_version = f'{args.version}-trainval'
         nuscenes_data_prep(

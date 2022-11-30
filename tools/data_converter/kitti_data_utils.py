@@ -14,7 +14,7 @@ def get_image_index_str(img_idx, use_prefix_id=False):
     if use_prefix_id:
         return '{:07d}'.format(img_idx)
     else:
-        return '{:06d}'.format(img_idx)
+        return '{:05d}'.format(img_idx)  # TODO: Tidy this up
 
 
 def get_kitti_info_path(idx,
@@ -46,8 +46,9 @@ def get_image_path(idx,
                    relative_path=True,
                    exist_check=True,
                    info_type='image_2',
-                   use_prefix_id=False):
-    return get_kitti_info_path(idx, prefix, info_type, '.png', training,
+                   use_prefix_id=False,
+                   file_tail='.jpg'):  # TODO: Tidy this up
+    return get_kitti_info_path(idx, prefix, info_type, file_tail, training,
                                relative_path, exist_check, use_prefix_id)
 
 
@@ -150,7 +151,7 @@ def get_label_anno(label_path):
     if len(content) != 0 and len(content[0]) == 16:  # have score
         annotations['score'] = np.array([float(x[15]) for x in content])
     else:
-        annotations['score'] = np.zeros((annotations['bbox'].shape[0], ))
+        annotations['score'] = np.zeros((annotations['bbox'].shape[0],))
     index = list(range(num_objects)) + [-1] * (num_gt - num_objects)
     annotations['index'] = np.array(index, dtype=np.int32)
     annotations['group_ids'] = np.arange(num_gt, dtype=np.int32)
@@ -261,9 +262,10 @@ def get_kitti_image_info(path,
             Tr_velo_to_cam = np.array([
                 float(info) for info in lines[5].split(' ')[1:13]
             ]).reshape([3, 4])
-            Tr_imu_to_velo = np.array([
-                float(info) for info in lines[6].split(' ')[1:13]
-            ]).reshape([3, 4])
+            # Tr_imu_to_velo = np.array([
+            #     float(info) for info in lines[6].split(' ')[1:13]
+            # ]).reshape([3, 4])
+            Tr_imu_to_velo = np.zeros((3, 4))   # TODO: fix this hardcode
             if extend_matrix:
                 Tr_velo_to_cam = _extend_matrix(Tr_velo_to_cam)
                 Tr_imu_to_velo = _extend_matrix(Tr_imu_to_velo)
@@ -545,9 +547,9 @@ def add_difficulty_to_annos(info):
     occlusion = annos['occluded']
     truncation = annos['truncated']
     diff = []
-    easy_mask = np.ones((len(dims), ), dtype=np.bool)
-    moderate_mask = np.ones((len(dims), ), dtype=np.bool)
-    hard_mask = np.ones((len(dims), ), dtype=np.bool)
+    easy_mask = np.ones((len(dims),), dtype=np.bool)
+    moderate_mask = np.ones((len(dims),), dtype=np.bool)
+    hard_mask = np.ones((len(dims),), dtype=np.bool)
     i = 0
     for h, o, t in zip(height, occlusion, truncation):
         if o > max_occlusion[0] or h <= min_height[0] or t > max_trunc[0]:

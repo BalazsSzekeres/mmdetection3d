@@ -1,0 +1,47 @@
+{
+    "os": "Windows-10-10.0.22000-SP0",
+    "python": "3.8.13",
+    "heartbeatAt": "2022-11-23T15:10:41.232678",
+    "startedAt": "2022-11-23T15:10:39.591038",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        ".\\configs\\pointpillars\\hv_pointpillars_secfpn_6x8_160e_kitti-3d-car.py",
+        "--gpu-id=0"
+    ],
+    "state": "running",
+    "program": ".\\tools\\train.py",
+    "codePath": "tools\\train.py",
+    "host": "DESKTOP-5EDBPBO",
+    "username": "balaz",
+    "executable": "C:\\Users\\balaz\\anaconda3\\envs\\mmlab\\python.exe",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 3600.0,
+        "min": 0.0,
+        "max": 3600.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3600.0,
+            "min": 0.0,
+            "max": 3600.0
+        }
+    ],
+    "disk": {
+        "total": 1862.9999961853027,
+        "used": 1709.2960662841797
+    },
+    "gpu": "NVIDIA GeForce RTX 3080",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3080",
+            "memory_total": 10737418240
+        }
+    ],
+    "memory": {
+        "total": 63.917144775390625
+    }
+}
