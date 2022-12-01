@@ -1,13 +1,10 @@
 voxel_size = [0.16, 0.16, 4]
-point_cloud_range_spec = [0, -25.6, -3, 51.2, 25.6, 1]  # TODO check this
-output_shape = [(point_cloud_range_spec[3] - point_cloud_range_spec[0]) // voxel_size[0],
-                (point_cloud_range_spec[4] - point_cloud_range_spec[1]) // voxel_size[1]]
 
 model = dict(
     type='VoxelNet',
     voxel_layer=dict(
         max_num_points=32,  # max_points_per_voxel
-        point_cloud_range=point_cloud_range_spec,  # Has to be a multiple of the grid cell size
+        point_cloud_range=[0, -25.6, -3, 51.2, 25.6, 1],  # Has to be a multiple of the grid cell size
         voxel_size=voxel_size,
         max_voxels=(16000, 40000)  # (training, testing) max_voxels
     ),
@@ -17,9 +14,9 @@ model = dict(
         feat_channels=[64],
         with_distance=False,
         voxel_size=voxel_size,
-        point_cloud_range=point_cloud_range_spec),
+        point_cloud_range=[0, -25.6, -3, 51.2, 25.6, 1]),
     middle_encoder=dict(
-        type='PointPillarsScatter', in_channels=64, output_shape=output_shape),  # output_shape=BEV_span/voxel_size
+        type='PointPillarsScatter', in_channels=64, output_shape=[320, 320]),  # output_shape=BEV_span/voxel_size
     backbone=dict(
         type='SECOND',  # TODO check this to include the PCDet version
         in_channels=64,
@@ -41,9 +38,9 @@ model = dict(
         anchor_generator=dict(
             type='AlignedAnchor3DRangeGenerator',
             ranges=[
-                point_cloud_range_spec,
-                point_cloud_range_spec,
-                point_cloud_range_spec,
+                [0, -25.6, -3, 51.2, 25.6, 1],
+                [0, -25.6, -3, 51.2, 25.6, 1],
+                [0, -25.6, -3, 51.2, 25.6, 1],
             ],
             sizes=[[0.8, 0.6, 1.73], [1.76, 0.6, 1.73], [3.9, 1.6, 1.56]],  # Order is: Pedestrian, Cyclist, Car
             rotations=[0, 1.57],
