@@ -1,12 +1,12 @@
 _base_ = [
-    '../_base_/models/hv_pointpillars_secfpn_view_of_delft.py',
-    '../_base_/datasets/view-of-delft.py',
+    '../_base_/models/hv_pointpillars_secfpn_kitti.py',
+    '../_base_/datasets/kitti-3d-3class.py',
     '../_base_/schedules/cyclic_40e.py', '../_base_/default_runtime.py'
 ]
 
-point_cloud_range = [0, -25.6, -3, 51.2, 25.6, 1]
+point_cloud_range = [0, -39.68, -3, 69.12, 39.68, 1]
 # dataset settings
-data_root = 'data/view_of_delft_PUBLIC/lidar/'
+data_root = 'data/kitti/'
 class_names = ['Pedestrian', 'Cyclist', 'Car']
 # PointPillars adopted a different sampling strategies among classes
 
@@ -25,7 +25,7 @@ file_client_args = dict(backend='disk')
 
 db_sampler = dict(
     data_root=data_root,
-    info_path=data_root + 'ViewOfDelft_dbinfos_train.pkl',
+    info_path=data_root + 'kitti_dbinfos_train.pkl',
     rate=1.0,
     prepare=dict(
         filter_by_difficulty=[-1],
