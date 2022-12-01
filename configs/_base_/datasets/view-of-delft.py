@@ -20,7 +20,7 @@ file_client_args = dict(backend='disk')
 
 db_sampler = dict(
     data_root=data_root,
-    info_path=data_root + 'vod_dbinfos_train.pkl',
+    info_path=data_root + 'ViewOfDelft_dbinfos_train.pkl',
     rate=1.0,
     prepare=dict(
         filter_by_difficulty=[-1],

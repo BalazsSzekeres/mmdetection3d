@@ -1,5 +1,5 @@
 _base_ = [
-    '../_base_/models/view_of_delft.py',
+    '../_base_/models/hv_pointpillars_secfpn_view_of_delft.py',
     '../_base_/datasets/view-of-delft.py',
     '../_base_/schedules/cyclic_40e.py', '../_base_/default_runtime.py'
 ]
@@ -25,7 +25,7 @@ file_client_args = dict(backend='disk')
 
 db_sampler = dict(
     data_root=data_root,
-    info_path=data_root + 'kitti_dbinfos_train.pkl',
+    info_path=data_root + 'ViewOfDelft_dbinfos_train.pkl',
     rate=1.0,
     prepare=dict(
         filter_by_difficulty=[-1],

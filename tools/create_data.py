@@ -13,7 +13,8 @@ from tools.data_converter.create_gt_database import (
 def view_of_delft_data_prep(root_path,
                     info_prefix,
                     version,
-                    out_dir,):
+                    out_dir,
+                    with_plane=False):
     """Prepare data related to view of delft dataset.
 
     Related data consists of '.pkl' files recording basic infos,

@@ -145,7 +145,7 @@ def create_groundtruth_database(dataset_class_name,
     print(f'Create GT Database of {dataset_class_name}')
     dataset_cfg = dict(
         type=dataset_class_name, data_root=data_path, ann_file=info_path)
-    if dataset_class_name == 'KittiDataset':
+    if dataset_class_name == 'KittiDataset' or dataset_class_name == 'ViewOfDelftDataset':
         file_client_args = dict(backend='disk')
         dataset_cfg.update(
             test_mode=False,
