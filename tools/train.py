@@ -222,6 +222,11 @@ def main():
         test_cfg=cfg.get('test_cfg'))
     model.init_weights()
 
+    cfg.log_config.hooks = [
+        dict(type='TextLoggerHook'),
+        dict(type='MMDetWandbHook',
+             init_kwargs={'project': 'VOD-MMDET3D'}, )]
+
     logger.info(f'Model:\n{model}')
     datasets = [build_dataset(cfg.data.train)]
     if len(cfg.workflow) == 2:
